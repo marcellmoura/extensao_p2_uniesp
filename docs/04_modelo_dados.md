@@ -2,58 +2,99 @@
 
 ## Entidades e Relacionamentos
 
-### Professor
-- id_professor (PK)
+### USUARIO
+- id (PK)
 - nome
 - usuario
 - senha
+- tipo_usuario (admin, coordenador, professor)
 
-### Disciplina
-- id_disciplina (PK)
-- nome
+### TURMA
+- id (PK)
+- nome_turma
 
-### Turma
-- id_turma (PK)
-- nome
-- ano (ex: 6º ano)
-- turno (manhã/tarde)
-- ano_letivo
+### DISCIPLINA
+- id (PK)
+- nome_disciplina
 
-### Professor_Turma_Disciplina
+### USUARIO_TURMA_DISCIPLINA
 (Tabela de ligação entre professor, turma e disciplina)
 - id (PK)
-- id_professor (FK)
-- id_turma (FK)
-- id_disciplina (FK)
+- id_usuario (FK → USUARIO)
+- id_turma (FK → TURMA)
+- id_disciplina (FK → DISCIPLINA)
 
-### Aluno
-- id_aluno (PK)
+### ALUNO
+- id (PK)
+- numero_matricula
 - nome
 - data_nascimento
+- nome_responsavel (opcional)
 
-### Matricula
-- id_matricula (PK)
-- id_aluno (FK)
-- id_turma (FK)
-- data_entrada
-- data_saida (pode ser nulo)
+### ALUNO_TURMA
+(Vínculo do aluno com a turma)
+- id (PK)
+- id_aluno (FK → ALUNO)
+- id_turma (FK → TURMA)
+- data_ingresso
+- data_saida (opcional)
+- status (ativo, concluído, transferido)
 
-### Nota
-- id_nota (PK)
-- id_matricula (FK)
-- id_disciplina (FK)
-- descricao_avaliacao (ex: Prova 1)
+### AVALIACAO
+- id (PK)
+- id_usuario_turma_disciplina (FK → USUARIO_TURMA_DISCIPLINA)
+- titulo
+- descricao
+- data_aplicacao
+- peso (opcional)
+
+### NOTA
+- id (PK)
+- id_aluno_turma (FK → ALUNO_TURMA)
+- id_avaliacao (FK → AVALIACAO)
 - valor
+- data_lancamento
 
-### Frequencia
-- id_frequencia (PK)
-- id_matricula (FK)
-- id_disciplina (FK)
-- data
-- presente (booleano: true/false)
+### FREQUENCIA
+- id (PK)
+- id_aluno_turma (FK → ALUNO_TURMA)
+- id_usuario_turma_disciplina (FK → USUARIO_TURMA_DISCIPLINA)
+- data_frequencia
+- presente (1 = sim, 0 = não)
+
+### ANOTACAO_ALUNO
+- id (PK)
+- id_usuario (FK → USUARIO)
+- id_aluno_turma (FK → ALUNO_TURMA)
+- data_anotacao
+- texto_anotacao
+
+### AGENDA_ESCOLAR
+- id (PK)
+- id_usuario_turma_disciplina (FK → USUARIO_TURMA_DISCIPLINA)
+- dia_semana
+- hora_inicio
+- hora_fim
+
+### COMUNICADO
+- id (PK)
+- id_usuario_remetente (FK → USUARIO)
+- titulo
+- mensagem
+- data_envio
+
+### CALENDARIO_ESCOLAR
+- id (PK)
+- titulo
+- descricao
+- data_evento
+- tipo_evento (ex: feriado, reunião, prova)
 
 ---
 
 ## Diagrama ER
 
-*O diagrama entidade-relacionamento deste modelo está em construção e será adicionado ao repositório em breve.*
+O diagrama entidade-relacionamento completo pode ser visualizado no link abaixo:
+
+[Visualizar DER no Google Drive](https://drive.google.com/file/d/1FernGLp6eQat9t5ap18EXrTltOUP8hOV/view?usp=sharing)
+
